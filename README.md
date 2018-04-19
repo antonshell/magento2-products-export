@@ -31,3 +31,15 @@ nano _config.php
 ```
 php export.php
 ```
+
+4 . Multi thread
+
+```
+./multitread.sh
+```
+
+kill all scripts:
+
+```
+./multitread_stop.sh
+```
