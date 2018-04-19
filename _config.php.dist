@@ -1,0 +1,11 @@
+<?php
+
+return [
+    'db' => [
+        'host' => '127.0.0.1',
+        'dbname' => 'magento_db',
+        'username' => 'user',
+        'passwd' => 'password',
+    ],
+    'base_url' => 'http://localhost:9200/product-raw/type/'
+];
