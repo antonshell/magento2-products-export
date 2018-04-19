@@ -6,6 +6,17 @@ use src\ProductService;
 
 require '_bootstrap.php';
 
+$threads = null;
+$seed = null;
+if(isset($argv[1],$argv[2])){
+    $threads = $argv[1];
+    $seed = $argv[2];
+
+    if(!is_numeric($threads) || !is_numeric($seed)){
+        throw new Exception('Invalid parameters');
+    }
+}
+
 $limit = 1000;
 $page = 1;
 $offset = 0;
@@ -19,8 +30,7 @@ $headers = ['Content-Type: application/json'];
 
 $index = 1;
 for(;;){
-
-    $data = $productService->getData($limit, $offset);
+    $data = $productService->getData($limit, $offset, $threads, $seed);
 
     if(!count($data)){
         break;

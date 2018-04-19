@@ -1,0 +1,1 @@
+for i in $(ps aux |grep export.php| awk '{print $2}'); do kill -9 $i; done

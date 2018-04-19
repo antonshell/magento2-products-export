@@ -38,9 +38,11 @@ class ProductService{
     /**
      * @param int $limit
      * @param int $offset
-     * @return mixed
+     * @param null $threads
+     * @param null $seed
+     * @return array
      */
-    public function getData(int $limit = 100, int $offset = 0)
+    public function getData(int $limit = 100, int $offset = 0, $threads = null, $seed = null)
     {
         $sql = 'SELECT 
                     cpe.*,
@@ -75,10 +77,16 @@ class ProductService{
                 (SELECT * FROM ' . $this->dbPrefix . 'cataloginventory_stock_status WHERE stock_id = 1 AND website_id = 0 ) ciss
                 ON cpe.row_id = ciss.product_id
                 
-                #WHERE row_id = 43871 
+                WHERE 1 = 1 #AND row_id = 43871 
                 
-                LIMIT ' . $limit . ' OFFSET ' . $offset;
-        
+                ';
+
+        if($threads && $seed !== null){
+            $sql .= ' AND row_id % ' . $threads . ' = ' . $seed;
+        }
+
+        $sql .= ' LIMIT ' . $limit . ' OFFSET ' . $offset;
+
         $stmt = $this->dbh->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
         $stmt->execute([
             ':limit' => $limit,
